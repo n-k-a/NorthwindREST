@@ -40,52 +40,6 @@ public class NorthwindController {
 
 
 
-    @GetMapping ("/employees")
-    @ResponseBody
-    public List<EmployeeEntity> foundEmployee(@RequestParam(required = false) String name){
-        if(name ==null){
-            return employeeRespository.findAll();
-        }
-        List<EmployeeEntity> foundEmployee= new ArrayList<>();
-        for(EmployeeEntity employeeEntity : employeeRespository.findAll()){
-            if(employeeEntity.getLastName().contains(name)){
-                foundEmployee.add(employeeEntity);
-            }
-        }
-        return foundEmployee;
-    }
-    @GetMapping ("/employees/{id}")
-    public Optional<EmployeeEntity> getEmployeeByID(@PathVariable Integer id){
-        return employeeRespository.findById(id);
-
-
-    }
-   /* @GetMapping ("value=/northwind/employees, params={title, city}")
-    public List<EmployeeEntity> getEmployeeByTitleOrCity(
-            @RequestParam String title,
-            @RequestParam(required=false) String city){
-        if(title !=null && city !=null){
-            List<EmployeeEntity> foundEmployee= new ArrayList<>();
-            for(EmployeeEntity employeeEntity : employeeRespository.findAll()){
-                if(employeeEntity.getTitle().contains(title) && employeeEntity.getCity().contains(city)){
-                    foundEmployee.add(employeeEntity);
-                }
-            }
-            return foundEmployee;
-        }
-        else if (title != null && city ==null){
-            return employeeRespository.findAll()
-                    .stream()
-                    .filter((employeeEntity) -> employeeEntity.getTitle().contains(title))
-                    .collect(Collectors.toList());
-
-        }
-        else{
-            return employeeRespository.findAll();
-        }
-    }
-*/
-
 
 
     @GetMapping ("/orders")
