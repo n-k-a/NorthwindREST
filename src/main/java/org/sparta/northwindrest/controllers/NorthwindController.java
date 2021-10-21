@@ -42,26 +42,6 @@ public class NorthwindController {
 
 
 
-    @GetMapping ("/orders")
-    @ResponseBody
-    public List<OrderEntity> foundOrder(@RequestParam(required = false) String name){
-        if(name ==null){
-            return orderRepository.findAll();
-        }
-        List<OrderEntity> foundOrder= new ArrayList<>();
-        for(OrderEntity orderEntity : orderRepository.findAll()){
-            if(orderEntity.getCustomerID().contains(name)){
-                foundOrder.add(orderEntity);
-            }
-        }
-        return foundOrder;
-    }
-    @GetMapping ("/orders/{id}")
-    public Optional<OrderEntity> getOrderByID(@PathVariable Integer id){
-        return orderRepository.findById(id);
-
-
-    }
 
 
     /*general methods with endpoints has it as resource/identifier/secondary resource or identifier
