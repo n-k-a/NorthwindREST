@@ -1,4 +1,4 @@
-package org.sparta.mg.northwindrest;
+package org.sparta.northwindrest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

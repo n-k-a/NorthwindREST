@@ -1,4 +1,4 @@
-package org.sparta.mg.northwindrest.entities;
+package org.sparta.northwindrest.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

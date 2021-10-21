@@ -1,18 +1,17 @@
-package org.sparta.mg.northwindrest.entities;
+package org.sparta.northwindrest.entities;
 
 import javax.persistence.*;
 
-@Table(name = "customers", indexes = {
+@Table(name = "suppliers", indexes = {
         @Index(name = "CompanyName", columnList = "CompanyName"),
-        @Index(name = "PostalCode", columnList = "PostalCode"),
-        @Index(name = "Region", columnList = "Region"),
-        @Index(name = "City", columnList = "City")
+        @Index(name = "PostalCode", columnList = "PostalCode")
 })
 @Entity
-public class CustomerEntity {
+public class SupplierEntity {
     @Id
-    @Column(name = "CustomerID", nullable = false, length = 5)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SupplierID", nullable = false)
+    private Integer id;
 
     @Column(name = "CompanyName", nullable = false, length = 40)
     private String companyName;
@@ -44,26 +43,16 @@ public class CustomerEntity {
     @Column(name = "Fax", length = 24)
     private String fax;
 
-    @Column(name = "Image")
-    private byte[] image;
+    @Lob
+    @Column(name = "HomePage")
+    private String homePage;
 
-    @Column(name = "ImageThumbnail")
-    private byte[] imageThumbnail;
-
-    public byte[] getImageThumbnail() {
-        return imageThumbnail;
+    public String getHomePage() {
+        return homePage;
     }
 
-    public void setImageThumbnail(byte[] imageThumbnail) {
-        this.imageThumbnail = imageThumbnail;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setHomePage(String homePage) {
+        this.homePage = homePage;
     }
 
     public String getFax() {
@@ -146,11 +135,11 @@ public class CustomerEntity {
         this.companyName = companyName;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

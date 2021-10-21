@@ -1,10 +1,9 @@
-package org.sparta.mg.northwindrest.entities;
+package org.sparta.northwindrest.entities;
 
 import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.Objects;
 
