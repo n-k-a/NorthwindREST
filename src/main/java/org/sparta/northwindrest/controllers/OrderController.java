@@ -1,14 +1,12 @@
 package org.sparta.northwindrest.controllers;
 
-import org.sparta.northwindrest.entities.EmployeeEntity;
-import org.sparta.northwindrest.entities.OrderEntity;
-import org.sparta.northwindrest.entities.ProductsEntity;
-import org.sparta.northwindrest.entities.SupplierEntity;
+import org.sparta.northwindrest.entities.*;
 import org.sparta.northwindrest.repositories.*;
 import org.sparta.northwindrest.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +25,20 @@ public class OrderController{
         this.orderRepository = orderRepository;
     }
 
-
+    @GetMapping (value = "/orders", params= {"OrderDate"})
+    @ResponseBody
+    public List<OrderEntity> getOrderbyD(@RequestParam(required = false) Instant oDate) {
+        if (oDate==null){
+            orderRepository.findAll();
+        }
+        List<OrderEntity> foundOrder = new ArrayList<>();
+        for (OrderEntity orderEntity : orderRepository.findAll()) {
+            if (orderEntity.getOrderDate()==(oDate)) {
+                foundOrder.add(orderEntity);
+            }
+        }
+        return foundOrder;
+    }
 
 
 

@@ -25,11 +25,19 @@ public class CustomerController {
     }
 
 
-    /*
-        @GetMapping ("/shippers")
+
+        @GetMapping ("/customers")
         @ResponseBody
-        public List<OrderEntity> foundOrder(@RequestParam(required = false) String name){
-        }*/
+        public List<CustomerEntity> foundCustomer(@RequestParam(required = false) String name) {
+            List<CustomerEntity> foundCustomer = new ArrayList<>();
+            for (CustomerEntity customerEntity : customerRepository.findAll()) {
+                if (customerEntity.getCompanyName().contains(name)) {
+                    foundCustomer.add(customerEntity);
+                }
+            }
+            return foundCustomer;
+
+        }
     @GetMapping("/customers/{id}")
     public Optional<CustomerEntity> getCustomerByID(@PathVariable String id) {
         return customerRepository.findById(id);

@@ -19,19 +19,36 @@ public class EmployeeController {
         this.employeeRepository= employeeRepository;
     }
 
+
+
+
     @GetMapping("/employees")
     @ResponseBody
-    public List<EmployeeEntity> foundEmployee(@RequestParam(required = false) String name){
-        if(name ==null){
-            return employeeRepository.findAll();
-        }
-        List<EmployeeEntity> foundEmployee= new ArrayList<>();
-        for(EmployeeEntity employeeEntity : employeeRepository.findAll()){
-            if(employeeEntity.getLastName().contains(name)){
-                foundEmployee.add(employeeEntity);
+    public List<EmployeeEntity> foundEmployee(@RequestParam(required = false) String firstName,
+                                              @RequestParam(required = false) String lastName){
+        if (lastName!=null&& firstName!=null) {
+            List<EmployeeEntity> foundEmployee= new ArrayList<>();
+            for(EmployeeEntity employeeEntity : employeeRepository.findAll()){
+                if(employeeEntity.getLastName().contains(lastName) && employeeEntity.getFirstName().contains(firstName)){
+                    foundEmployee.add(employeeEntity);
+                }
             }
+            return foundEmployee;
         }
-        return foundEmployee;
+        else if (lastName!=null) {
+            return employeeRepository.findAll()
+                    .stream()
+                    .filter((EmployeeEntity) -> EmployeeEntity.getLastName().contains(lastName))
+                    .collect(Collectors.toList());
+        }
+        else if (firstName!=null){
+        return employeeRepository.findAll()
+                .stream()
+                .filter((EmployeeEntity) -> EmployeeEntity.getFirstName().contains(firstName))
+                .collect(Collectors.toList());}
+        else
+        {            return employeeRepository.findAll();
+        }
     }
     @GetMapping ("/employees/{id}")
     public Optional<EmployeeEntity> getEmployeeByID(@PathVariable Integer id){

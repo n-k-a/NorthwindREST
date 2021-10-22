@@ -28,6 +28,8 @@ public class ProductController {
     /*
     * Change this to DTO
     * */
+
+    /*
     @GetMapping("/products")
     @ResponseBody
     public List<ProductsEntity> foundProducts(@RequestParam(required = false) Integer supplierID,
@@ -58,7 +60,7 @@ public class ProductController {
             return productsRepository.findAll();
         }
     }
-
+*/
     @GetMapping ("/products/{id}")
     public Optional<ProductsEntity> getProductsByID(@PathVariable Integer id){
         return productsRepository.findById(id);

@@ -24,12 +24,17 @@ public class ShipperController {
         this.shipperRepository = shipperRepository;
     }
 
-
-    /*
-        @GetMapping ("/shippers")
+     @GetMapping ("/shippers")
         @ResponseBody
-        public List<OrderEntity> foundOrder(@RequestParam(required = false) String name){
-        }*/
+        public List<ShipperEntity> foundOrder(@RequestParam(required = false) String name) {
+         List<ShipperEntity> foundShipper = new ArrayList<>();
+         for (ShipperEntity shipperEntity : shipperRepository.findAll()) {
+             if (shipperEntity.getCompanyName().contains(name)) {
+                 foundShipper.add(shipperEntity);
+             }
+         }
+         return foundShipper;
+     }
     @GetMapping("/shippers/{id}")
     public Optional<ShipperEntity> getShipperByID(@PathVariable Integer id) {
         return shipperRepository.findById(id);

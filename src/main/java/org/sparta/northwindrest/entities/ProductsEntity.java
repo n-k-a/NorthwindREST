@@ -9,8 +9,8 @@ import java.util.Objects;
 public class ProductsEntity {
     private Integer productId;
     private String productName;
-    private Integer supplierId;
-    private Integer categoryId;
+    private SupplierEntity supplierId;
+    private CategoryEntity categoryId;
     private String quantityPerUnit;
     private BigDecimal unitPrice;
     private Integer unitsInStock;
@@ -38,26 +38,27 @@ public class ProductsEntity {
         this.productName = productName;
     }
 
-    @Basic
-    @Column(name = "SupplierID")
-    public Integer getSupplierId() {
+
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "SupplierID")
+    public SupplierEntity getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(Integer supplierId) {
+    public void setSupplierId(SupplierEntity supplierId) {
         this.supplierId = supplierId;
     }
 
-    @Basic
-    @Column(name = "CategoryID")
-    public Integer getCategoryId() {
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "CategoryID")
+    public CategoryEntity getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(CategoryEntity categoryId) {
         this.categoryId = categoryId;
     }
-
     @Basic
     @Column(name = "QuantityPerUnit")
     public String getQuantityPerUnit() {
