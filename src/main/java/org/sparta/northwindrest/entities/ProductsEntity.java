@@ -39,7 +39,7 @@ public class ProductsEntity {
     }
 
 
-
+    @Access(AccessType.PROPERTY)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "SupplierID")
     public SupplierEntity getSupplierId() {
@@ -50,6 +50,7 @@ public class ProductsEntity {
         this.supplierId = supplierId;
     }
 
+    @Access(AccessType.PROPERTY)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "CategoryID")
     public CategoryEntity getCategoryId() {

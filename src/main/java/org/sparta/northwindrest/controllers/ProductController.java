@@ -1,8 +1,10 @@
 package org.sparta.northwindrest.controllers;
 
+import org.sparta.northwindrest.dto.ProductNamesDTO;
 import org.sparta.northwindrest.entities.ProductsEntity;
 import org.sparta.northwindrest.repositories.*;
 import org.sparta.northwindrest.repositories.ProductsRepository;
+import org.sparta.northwindrest.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,52 +17,60 @@ import java.util.stream.Collectors;
 @RestController
 public class ProductController {
     private ProductsRepository productsRepository;
-
+    private ProductService productService;
 
     /* Look up how auto wired work, just to see how a case switch
      * would work for this instead of instantiating everything*/
 
     @Autowired
-    public ProductController(ProductsRepository productsRepository){
+    public ProductController(ProductsRepository productsRepository, ProductService productService){
         this.productsRepository = productsRepository;
+        this.productService = productService;
     }
 
     /*
     * Change this to DTO
     * */
-
-    /*
-    @GetMapping("/products")
+    /*@GetMapping("/products")
     @ResponseBody
-    public List<ProductsEntity> foundProducts(@RequestParam(required = false) Integer supplierID,
-                                              @RequestParam(required = false) Integer categoryID){
-        if(supplierID !=null && categoryID !=null) {
-            List<ProductsEntity> foundProducts= new ArrayList<>();
-            for(ProductsEntity productsEntity : productsRepository.findAll()){
-                if(productsEntity.getSupplierId()==supplierID &&productsEntity.getCategoryId() ==categoryID ){
-                    foundProducts.add(productsEntity);
+    public List<ProductNamesDTO> getAllProducts() {
+        List <ProductNamesDTO> productNames = productService.getAllProductsCategoryAndSuppliers();
+        return productNames;
+    }
+*/
+   @GetMapping("/products")
+    @ResponseBody
+    public List<ProductNamesDTO> getProductsBySupplierAndCategory(
+            @RequestParam(required = false) String supplier,
+            @RequestParam(required = false) String category){
+        if(supplier !=null && category !=null) {
+            List<ProductNamesDTO> foundProducts= new ArrayList<>();
+            for(ProductNamesDTO productNamesDTO : productService.getAllProductsCategoryAndSuppliers()){
+                if(productNamesDTO.getSupplierName().contains(supplier) &&
+                        productNamesDTO.getCategoryName().contains(category) ){
+                    foundProducts.add(productNamesDTO);
                 }
             }
             return foundProducts;
         }
-        else if(supplierID !=null){
-            return productsRepository.findAll()
+        else if(supplier !=null){
+            return productService.getAllProductsCategoryAndSuppliers()
                     .stream()
-                    .filter((o) -> o.getSupplierId().equals(supplierID))
+                    .filter((o) -> o.getSupplierName().contains(supplier))
                     .collect(Collectors.toList());
         }
-        else if(categoryID !=null){
-            return productsRepository.findAll()
+        else if(category !=null){
+            return productService.getAllProductsCategoryAndSuppliers()
                     .stream()
-                    .filter((o) -> o.getCategoryId().equals(categoryID))
+                    .filter((o) -> o.getCategoryName().contains(category))
                     .collect(Collectors.toList());
         }
 
         else {
-            return productsRepository.findAll();
+            return productService.getAllProductsCategoryAndSuppliers();
         }
     }
-*/
+
     @GetMapping ("/products/{id}")
     public Optional<ProductsEntity> getProductsByID(@PathVariable Integer id){
         return productsRepository.findById(id);
