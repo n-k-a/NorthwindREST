@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,38 +28,32 @@ public class OrderController{
         this.orderRepository = orderRepository;
     }
 
-    @GetMapping (value = "/orders", params= {"OrderDate"})
-    @ResponseBody
-    public List<OrderEntity> getOrderbyD(@RequestParam(required = false) String oDate) {
-        LocalDate localDateObj = LocalDate.parse(oDate, dtf);
-        if (oDate==null){
-            orderRepository.findAll();
-        }
-        List<OrderEntity> foundOrder = new ArrayList<>();
-        for (OrderEntity orderEntity : orderRepository.findAll()) {
-            Instant instant = localDateObj.atStartOfDay(ZoneId.systemDefault()).toInstant();
-            if (orderEntity.getOrderDate()==(instant)) {
-                foundOrder.add(orderEntity);
-            }
-        }
-        return foundOrder;
-    }
-
 
 
     @GetMapping ("/orders")
     @ResponseBody
-    public List<OrderEntity> foundOrder(@RequestParam(required = false) String name){
-        if(name ==null){
-            return orderRepository.findAll();
-        }
-        List<OrderEntity> foundOrder= new ArrayList<>();
-        for(OrderEntity orderEntity : orderRepository.findAll()){
-            if(orderEntity.getCustomerID().contains(name)){
-                foundOrder.add(orderEntity);
+    public List<OrderEntity> foundOrder(@RequestParam(required = false) String orderDate) {
+        if (orderDate != null) {
+            LocalDate localDateObj = LocalDate.parse(orderDate, dtf);
+
+            List<OrderEntity> foundOrder = new ArrayList<>();
+            for (OrderEntity orderEntity : orderRepository.findAll()) {
+
+                LocalDate entityDate = LocalDateTime.ofInstant(orderEntity.getOrderDate(), ZoneId.systemDefault()).toLocalDate();
+                entityDate = entityDate.minusDays(1);
+                System.out.println(entityDate);
+                System.out.println(localDateObj);
+                if (entityDate.compareTo(localDateObj) == 0) {
+                    foundOrder.add(orderEntity);
+                }
+
             }
-        }
-        return foundOrder;
+            return foundOrder;
+
+        } else
+        {
+            return orderRepository.findAll();
+    }
     }
     @GetMapping ("/orders/{id}")
     public Optional<OrderEntity> getOrderByID(@PathVariable Integer id){
