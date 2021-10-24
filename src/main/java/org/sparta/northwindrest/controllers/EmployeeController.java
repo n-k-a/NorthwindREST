@@ -1,7 +1,9 @@
 package org.sparta.northwindrest.controllers;
 
+import org.sparta.northwindrest.dto.EmployeeDTO;
 import org.sparta.northwindrest.entities.EmployeeEntity;
 import org.sparta.northwindrest.repositories.*;
+import org.sparta.northwindrest.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +16,12 @@ import java.util.stream.Collectors;
 public class EmployeeController {
 
     private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository){
+    @Autowired
+    public EmployeeController(EmployeeRepository employeeRepository, EmployeeService employeeService){
         this.employeeRepository= employeeRepository;
+        this.employeeService = employeeService;
     }
 
 
@@ -24,30 +29,30 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     @ResponseBody
-    public List<EmployeeEntity> foundEmployee(@RequestParam(required = false) String firstName,
-                                              @RequestParam(required = false) String lastName){
+    public List<EmployeeDTO> foundEmployee(@RequestParam(required = false) String firstName,
+                                           @RequestParam(required = false) String lastName){
         if (lastName!=null&& firstName!=null) {
-            List<EmployeeEntity> foundEmployee= new ArrayList<>();
-            for(EmployeeEntity employeeEntity : employeeRepository.findAll()){
-                if(employeeEntity.getLastName().contains(lastName) && employeeEntity.getFirstName().contains(firstName)){
-                    foundEmployee.add(employeeEntity);
+            List<EmployeeDTO> foundEmployee= new ArrayList<>();
+            for(EmployeeDTO employeeDTO : employeeService.getAllEmployees()){
+                if(employeeDTO.getLastName().contains(lastName) && employeeDTO.getFirstName().contains(firstName)){
+                    foundEmployee.add(employeeDTO);
                 }
             }
             return foundEmployee;
         }
         else if (lastName!=null) {
-            return employeeRepository.findAll()
+            return employeeService.getAllEmployees()
                     .stream()
-                    .filter((EmployeeEntity) -> EmployeeEntity.getLastName().contains(lastName))
+                    .filter((o) -> o.getLastName().contains(lastName))
                     .collect(Collectors.toList());
         }
         else if (firstName!=null){
-        return employeeRepository.findAll()
+        return employeeService.getAllEmployees()
                 .stream()
-                .filter((EmployeeEntity) -> EmployeeEntity.getFirstName().contains(firstName))
+                .filter((o) -> o.getFirstName().contains(firstName))
                 .collect(Collectors.toList());}
         else
-        {            return employeeRepository.findAll();
+        {            return employeeService.getAllEmployees();
         }
     }
     @GetMapping ("/employees/{id}")
