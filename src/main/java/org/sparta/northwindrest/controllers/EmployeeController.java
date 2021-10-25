@@ -59,7 +59,6 @@ public class EmployeeController {
     @GetMapping ("/employees/{id}")
     public Optional<EmployeeDTO> getEmployeeByID(@PathVariable Integer id){
         return Optional.ofNullable(employeeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Not an ID in this db: " + id)));
-       // return employeeRepository.findById(id);
     }
 
 

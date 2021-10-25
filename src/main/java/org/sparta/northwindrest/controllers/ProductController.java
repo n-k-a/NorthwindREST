@@ -29,16 +29,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    /*
-    * Change this to DTO
-    * */
-    /*@GetMapping("/products")
-    @ResponseBody
-    public List<ProductNamesDTO> getAllProducts() {
-        List <ProductNamesDTO> productNames = productService.getAllProductsCategoryAndSuppliers();
-        return productNames;
-    }
-*/
+
    @GetMapping("/products")
     @ResponseBody
     public List<ProductNamesDTO> getProductsBySupplierAndCategory(
