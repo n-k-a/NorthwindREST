@@ -18,11 +18,15 @@ public class OrderEntity {
     @Column(name = "OrderID", nullable = false)
     private Integer id;
 
-    @Column(name = "CustomerID", length = 5)
-    private String customerID;
+    @Access(AccessType.PROPERTY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "CustomerID")
+    private CustomerEntity customerID;
 
-    @Column(name = "EmployeeID")
-    private Integer employeeID;
+    @Access(AccessType.PROPERTY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "EmployeeID")
+    private EmployeeEntity employeeID;
 
     @Column(name = "OrderDate")
     private Instant orderDate;
@@ -56,6 +60,8 @@ public class OrderEntity {
 
     @Column(name = "ShipCountry", length = 15)
     private String shipCountry;
+
+
 
     public String getShipCountry() {
         return shipCountry;
@@ -145,20 +151,20 @@ public class OrderEntity {
         this.orderDate = orderDate;
     }
 
-    public Integer getEmployeeID() {
-        return employeeID;
-    }
-
-    public void setEmployeeID(Integer employeeID) {
-        this.employeeID = employeeID;
-    }
-
-    public String getCustomerID() {
+    public CustomerEntity getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(String customerID) {
+    public void setCustomerID(CustomerEntity customerID) {
         this.customerID = customerID;
+    }
+
+    public EmployeeEntity getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(EmployeeEntity employeeID) {
+        this.employeeID = employeeID;
     }
 
     public Integer getId() {

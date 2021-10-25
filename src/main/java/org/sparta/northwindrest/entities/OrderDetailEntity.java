@@ -21,6 +21,9 @@ public class OrderDetailEntity {
     @Column(name = "Discount", nullable = false)
     private Double discount;
 
+
+
+
     public Double getDiscount() {
         return discount;
     }

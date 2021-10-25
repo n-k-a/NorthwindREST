@@ -6,6 +6,7 @@ import org.sparta.northwindrest.repositories.*;
 import org.sparta.northwindrest.repositories.ProductsRepository;
 import org.sparta.northwindrest.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -72,8 +73,9 @@ public class ProductController {
     }
 
     @GetMapping ("/products/{id}")
-    public Optional<ProductsEntity> getProductsByID(@PathVariable Integer id){
-        return productsRepository.findById(id);
+    public Optional<ProductNamesDTO> getProductsByID(@PathVariable Integer id){
+       return Optional.ofNullable(productService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Not an ID in this db: " + id)));
+
 
 
     }

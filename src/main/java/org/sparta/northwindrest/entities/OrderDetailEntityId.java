@@ -2,8 +2,7 @@ package org.sparta.northwindrest.entities;
 
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,14 +11,18 @@ public class OrderDetailEntityId implements Serializable {
     private static final long serialVersionUID = 8006949910203479862L;
     @Column(name = "OrderID", nullable = false)
     private Integer orderID;
-    @Column(name = "ProductID", nullable = false)
-    private Integer productID;
 
-    public Integer getProductID() {
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "ProductID", nullable = false)
+    private OrderEntity productID;
+
+    public OrderEntity getProductID() {
         return productID;
     }
 
-    public void setProductID(Integer productID) {
+    public void setProductID(OrderEntity productID) {
         this.productID = productID;
     }
 

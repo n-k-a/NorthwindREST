@@ -56,8 +56,9 @@ public class EmployeeController {
         }
     }
     @GetMapping ("/employees/{id}")
-    public Optional<EmployeeEntity> getEmployeeByID(@PathVariable Integer id){
-        return employeeRepository.findById(id);
+    public Optional<EmployeeDTO> getEmployeeByID(@PathVariable Integer id){
+        return employeeService.getById(id);
+       // return employeeRepository.findById(id);
     }
 
 

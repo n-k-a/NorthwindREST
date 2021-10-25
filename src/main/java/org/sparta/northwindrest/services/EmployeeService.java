@@ -2,6 +2,7 @@ package org.sparta.northwindrest.services;
 
 import org.sparta.northwindrest.dto.EmployeeDTO;
 import org.sparta.northwindrest.dto.OrderDTO;
+import org.sparta.northwindrest.dto.ProductNamesDTO;
 import org.sparta.northwindrest.entities.EmployeeEntity;
 import org.sparta.northwindrest.entities.OrderEntity;
 import org.sparta.northwindrest.repositories.EmployeeRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +25,13 @@ public class EmployeeService {
                 .stream()
                 .map(this::convertToEmployeeDTO)
                 .collect(Collectors.toList());
+    }
+    public Optional<EmployeeDTO> getById(Integer id) {
+        return
+                Optional.ofNullable(employeeRepository.findAll().stream().map(this::convertToEmployeeDTO)
+                        .filter(o -> id.equals(o.getId()))
+                        .findAny()
+                        .orElse(null));
     }
 
     private EmployeeDTO convertToEmployeeDTO(EmployeeEntity employeeEntity) {
