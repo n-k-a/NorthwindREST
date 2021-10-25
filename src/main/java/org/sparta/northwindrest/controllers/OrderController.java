@@ -7,6 +7,7 @@ import org.sparta.northwindrest.repositories.*;
 import org.sparta.northwindrest.repositories.*;
 import org.sparta.northwindrest.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -79,7 +80,7 @@ public class OrderController{
     }
     @GetMapping ("/orders/{id}")
     public Optional<OrderDTO> getOrderByID(@PathVariable Integer id){
-        return orderService.getById(id);
+        return Optional.ofNullable(orderService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Not an ID in this db: " + id)));
 
     }
 

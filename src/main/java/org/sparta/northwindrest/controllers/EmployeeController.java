@@ -5,6 +5,7 @@ import org.sparta.northwindrest.entities.EmployeeEntity;
 import org.sparta.northwindrest.repositories.*;
 import org.sparta.northwindrest.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class EmployeeController {
     }
     @GetMapping ("/employees/{id}")
     public Optional<EmployeeDTO> getEmployeeByID(@PathVariable Integer id){
-        return employeeService.getById(id);
+        return Optional.ofNullable(employeeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Not an ID in this db: " + id)));
        // return employeeRepository.findById(id);
     }
 
